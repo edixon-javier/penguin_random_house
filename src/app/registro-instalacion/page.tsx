@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import FormularioInstalacion from "@/components/features/formulario-instalacion";
+import { FormularioInstalacion } from "@/components/features/instalacion";
 
 export default async function Home() {
   // Crear instancia del cliente Supabase (server-side)

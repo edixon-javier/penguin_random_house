@@ -1,7 +1,7 @@
 import { EnvVarWarning } from "@/components/features/env-var-warning";
 import { AuthButton } from "@/components/features/auth-button";
 import { ThemeSwitcher } from "@/components/features/theme-switcher";
-import FormularioInstalacion from "@/components/features/formulario-instalacion";
+import { FormularioInstalacion } from "@/components/features/instalacion";
 import { hasEnvVars } from "@/lib/utils";
 import Link from "next/link";
 
