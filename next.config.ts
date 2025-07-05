@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
  images: {
    domains: ['pxanlbqmkzsbhkahdzux.supabase.co'],
  },
+ // Especificar directorio de origen
+ distDir: '.next',
 };
 
 export default nextConfig;
