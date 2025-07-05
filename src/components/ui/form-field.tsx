@@ -10,6 +10,7 @@ interface FormFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   labelClassName?: string;
   inputClassName?: string;
   errorClassName?: string;
+  as?: 'input' | 'textarea' | 'select';
 }
 
 export const FormField = React.forwardRef<HTMLInputElement, FormFieldProps>(
@@ -20,7 +21,9 @@ export const FormField = React.forwardRef<HTMLInputElement, FormFieldProps>(
     labelClassName, 
     inputClassName, 
     errorClassName,
+    as = 'input',
     id,
+    children,
     ...props 
   }, ref) => {
     const inputId = id || `field-${props.name}`;
@@ -35,14 +38,41 @@ export const FormField = React.forwardRef<HTMLInputElement, FormFieldProps>(
             {label}
           </Label>
         )}
-        <Input 
-          id={inputId}
-          className={cn(inputClassName)} 
-          aria-invalid={!!error}
-          aria-describedby={error ? `${inputId}-error` : undefined}
-          ref={ref}
-          {...props} 
-        />
+        
+        {as === 'textarea' ? (
+          <textarea
+            id={inputId}
+            className={cn(
+              "flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+              inputClassName
+            )} 
+            aria-invalid={!!error}
+            aria-describedby={error ? `${inputId}-error` : undefined}
+            {...props}
+          />
+        ) : as === 'select' ? (
+          <select
+            id={inputId}
+            className={cn(
+              "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+              inputClassName
+            )}
+            aria-invalid={!!error}
+            aria-describedby={error ? `${inputId}-error` : undefined}
+            {...props}
+          >
+            {children}
+          </select>
+        ) : (
+          <Input 
+            id={inputId}
+            className={cn(inputClassName)} 
+            aria-invalid={!!error}
+            aria-describedby={error ? `${inputId}-error` : undefined}
+            ref={ref}
+            {...props} 
+          />
+        )}
         {error && (
           <p 
             id={`${inputId}-error`}

@@ -1,10 +1,12 @@
-import { createClient } from "@/lib/supabase/server";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 import { FormularioInstalacion } from "@/components/features/instalacion";
 
 export default async function Home() {
-  // Crear instancia del cliente Supabase (server-side)
-  const supabase = await createClient();
-  // Obtener lista de librerías
+  // Crear instancia del cliente Supabase directamente en el Server Component
+  const supabase = createServerComponentClient({ cookies });
+  
+  // Obtener lista de librerías directamente en el Server Component
   const { data: librerias, error } = await supabase
     .from("librerias")
     .select("id, nombre_libreria, sede")

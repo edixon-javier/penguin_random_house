@@ -1,105 +1,99 @@
 "use client";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { createClient } from "@/lib/supabase/client";
+import { useFormStatus } from "react-dom";
+import { crearLibreria } from "@/lib/actions/libreria-actions";
 import { Button, Card, FormField } from "@/components/ui";
 
-const LibreriaSchema = z.object({
-  nombre_libreria: z.string().min(2, { message: "El nombre es obligatorio" }),
-  sede: z.string().optional(),
-  direccion: z.string().optional(),
-  telefono: z.string().optional(),
-  email_contacto: z.string().email({ message: "Formato de email inválido" }).optional(),
-  nombre_administrador_contacto: z.string().optional(),
-  horario_atencion: z.string().optional(),
-});
+// El esquema de validación está ahora en @/lib/validators/libreria.schema.ts
 
-type LibreriaFormValues = z.infer<typeof LibreriaSchema>;
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <Button type="submit" disabled={pending} className="w-full">
+      {pending ? "Guardando..." : "Guardar librería"}
+    </Button>
+  );
+}
 
 export function NuevaLibreriaForm() {
   const [mensaje, setMensaje] = useState<string | null>(null);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<LibreriaFormValues>({
-    resolver: zodResolver(LibreriaSchema),
-  });
+  const [formState, setFormState] = useState<{
+    success?: boolean;
+    message?: string;
+    errors?: Record<string, string[]>;
+  }>({});
 
-  const onSubmit = async (data: LibreriaFormValues) => {
+  async function handleAction(formData: FormData) {
     setMensaje(null);
-    const supabase = createClient();
-    const { error } = await supabase.from("librerias").insert([data]);
-    if (error) {
-      setMensaje("Error: " + error.message);
-    } else {
-      setMensaje("Librería creada correctamente");
-      reset();
-      window.location.reload();
+    const result = await crearLibreria(formData);
+    
+    if (result) {
+      setFormState(result);
+      if (result.success) {
+        setMensaje("Librería creada correctamente");
+        // No es necesario refrescar la página, Next.js revalidará automáticamente
+      } else {
+        setMensaje(`Error: ${result.message}`);
+      }
     }
-  };
+  }
 
   return (
     <Card className="p-6">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form action={handleAction} className="space-y-4">
         <h2 className="text-lg font-bold mb-4">Agregar nueva librería</h2>
         
         <FormField
           label="Nombre"
-          {...register("nombre_libreria")}
-          error={errors.nombre_libreria?.message}
+          name="nombre_libreria"
           placeholder="Nombre de la librería"
+          error={formState.errors?.nombre_libreria?.join(", ")}
         />
         
         <FormField
           label="Sede"
-          {...register("sede")}
-          error={errors.sede?.message}
+          name="sede"
           placeholder="Sede"
+          error={formState.errors?.sede?.join(", ")}
         />
         
         <FormField
           label="Dirección"
-          {...register("direccion")}
-          error={errors.direccion?.message}
+          name="direccion"
           placeholder="Dirección"
+          error={formState.errors?.direccion?.join(", ")}
         />
         
         <FormField
           label="Teléfono"
-          {...register("telefono")}
-          error={errors.telefono?.message}
+          name="telefono"
           placeholder="Teléfono"
+          error={formState.errors?.telefono?.join(", ")}
         />
         
         <FormField
           label="Email de contacto"
-          {...register("email_contacto")}
-          error={errors.email_contacto?.message}
+          name="email_contacto"
           placeholder="Email de contacto"
           type="email"
+          error={formState.errors?.email_contacto?.join(", ")}
         />
         
         <FormField
           label="Nombre del administrador"
-          {...register("nombre_administrador_contacto")}
-          error={errors.nombre_administrador_contacto?.message}
+          name="nombre_administrador_contacto"
           placeholder="Nombre del administrador"
+          error={formState.errors?.nombre_administrador_contacto?.join(", ")}
         />
         
         <FormField
           label="Horario de atención"
-          {...register("horario_atencion")}
-          error={errors.horario_atencion?.message}
+          name="horario_atencion"
           placeholder="Horario de atención"
+          error={formState.errors?.horario_atencion?.join(", ")}
         />
         
-        <Button type="submit" disabled={isSubmitting} className="w-full">
-          {isSubmitting ? "Guardando..." : "Guardar librería"}
-        </Button>
+        <SubmitButton />
         
         {mensaje && (
           <p className={`text-sm ${mensaje.includes("Error") ? "text-red-500" : "text-green-500"}`}>
