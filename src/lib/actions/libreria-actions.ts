@@ -1,9 +1,8 @@
 'use server';
 
 import { createClient } from "@/lib/supabase/server";
-import { libreriaSchema, type LibreriaFormValues } from "@/lib/validators/libreria.schema";
+import { libreriaSchema } from "@/lib/validators/libreria.schema";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export async function crearLibreria(formData: FormData) {
   const supabase = await createClient();
@@ -52,9 +51,10 @@ export async function crearLibreria(formData: FormData) {
       data
     };
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Error inesperado";
     return {
       success: false,
-      message: `Error inesperado: ${error.message}`,
+      message: errorMessage,
       data: null
     };
   }

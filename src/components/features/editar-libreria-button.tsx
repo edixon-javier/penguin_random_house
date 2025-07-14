@@ -15,16 +15,26 @@ const EditarLibreriaSchema = z.object({
   horario_atencion: z.string().optional(),
 });
 
+interface Libreria {
+  id: string;
+  nombre_libreria: string;
+  sede?: string;
+  direccion?: string;
+  telefono?: string;
+  email_contacto?: string;
+  nombre_administrador_contacto?: string;
+  horario_atencion?: string;
+}
+
 type EditarLibreriaFormValues = z.infer<typeof EditarLibreriaSchema>;
 
-export function EditarLibreriaButton({ libreria }: { libreria: any }) {
+export function EditarLibreriaButton({ libreria }: { libreria: Libreria }) {
   const [open, setOpen] = useState(false);
   const [mensaje, setMensaje] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
   } = useForm<EditarLibreriaFormValues>({
     resolver: zodResolver(EditarLibreriaSchema),
     defaultValues: libreria,

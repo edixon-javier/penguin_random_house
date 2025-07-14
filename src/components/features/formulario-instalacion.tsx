@@ -14,13 +14,13 @@ const FormularioInstalacionSchema = z.object({
   correo_electronico: z.string().email({ message: "Formato de email inválido" }).optional(),
   nombre_administrador: z.string().optional(),
   horario_atencion_libreria: z.string().optional(),
-  fotos_libreria: z.any(), // archivos
+  fotos_libreria: z.instanceof(FileList).optional(),
   hora_inicio: z.string().optional(),
   hora_fin: z.string().optional(),
   horario_instalacion_publicidad: z.string().optional(),
   horario_entrega_paquetes: z.string().optional(),
   horario_instalacion_piezas: z.string().optional(),
-  fotos_espacio_brandeado: z.any(), // archivos
+  fotos_espacio_brandeado: z.instanceof(FileList).optional(),
   comentarios: z.string().optional(),
   isevento: z.boolean().optional(),
   nombre_persona_recibe: z.string().optional(),
@@ -32,7 +32,7 @@ const FormularioInstalacionSchema = z.object({
       z.object({
         nombre_pieza: z.string(),
         medidas_pieza: z.string().optional(),
-        fotos_pieza: z.any(), // archivos
+        fotos_pieza: z.instanceof(FileList).optional(),
       })
     )
     .min(1, { message: "Agrega al menos una pieza instalada" }),
@@ -170,8 +170,10 @@ export default function FormularioInstalacion() {
           // Actualizar los valores de las piezas
           Object.entries(pieza).forEach(([pieceKey, pieceValue]) => {
             if (pieceValue !== undefined && pieceValue !== null && pieceKey !== "fotos_pieza") {
-              // Usamos setValue con casting a any para evitar problemas de tipos
-              setValue(`piezas_instaladas.${index}.${pieceKey}` as any, pieceValue as string);
+              setValue(
+                `piezas_instaladas.${index}.${pieceKey}` as NestedFormKeys,
+                pieceValue as string
+              );
             }
           });
         });

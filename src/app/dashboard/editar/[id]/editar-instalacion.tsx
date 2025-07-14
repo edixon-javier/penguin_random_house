@@ -3,8 +3,42 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { createClient } from "@/lib/supabase/client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+
+// Tipos para definir la estructura de los datos
+type Pieza = {
+  id?: string;
+  instalacion_id?: string;
+  nombre_pieza: string;
+  medidas_pieza?: string;
+  fotos_pieza?: FileList | null;
+  _delete?: boolean;
+};
+
+type Instalacion = {
+  id: string;
+  nombre_libreria: string;
+  sede?: string;
+  direccion_libreria?: string;
+  telefono?: string;
+  correo_electronico?: string | null;
+  nombre_administrador?: string;
+  horario_atencion_libreria?: string;
+  hora_inicio?: string;
+  hora_fin?: string;
+  horario_instalacion_publicidad?: string;
+  horario_entrega_paquetes?: string;
+  horario_instalacion_piezas?: string;
+  comentarios?: string;
+  isevento?: boolean;
+  nombre_persona_recibe?: string;
+  cargo_persona_recibe?: string;
+  latitud?: number | null;
+  longitud?: number | null;
+};
+
+type SupabaseClient = ReturnType<typeof createClient>;
 
 // Esquema para validación
 const FormularioEdicionSchema = z.object({
@@ -45,8 +79,8 @@ export default function EditarInstalacion({
   instalacion, 
   piezas 
 }: { 
-  instalacion: any, 
-  piezas: any[] 
+  instalacion: Instalacion;
+  piezas: Pieza[];
 }) {
   const [mensaje, setMensaje] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -75,8 +109,7 @@ export default function EditarInstalacion({
     handleSubmit,
     control,
     formState: { errors },
-    setValue,
-    watch
+    setValue
   } = useForm<FormularioEdicionValues>({
     resolver: zodResolver(FormularioEdicionSchema),
     defaultValues: initialValues,
@@ -184,7 +217,7 @@ export default function EditarInstalacion({
   };
   
   // Función para subir fotos
-  const uploadPhotos = async (supabase: any, fileList: FileList, piezaId: string) => {
+  const uploadPhotos = async (supabase: SupabaseClient, fileList: FileList, piezaId: string) => {
     const fotosPiezaUrls: string[] = [];
     
     for (const file of Array.from(fileList)) {
