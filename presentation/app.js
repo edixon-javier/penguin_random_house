@@ -54,6 +54,12 @@
       tag: "¡Gracias!" }
   ];
 
+  // Versión autónoma (Artifact): si las imágenes vienen embebidas como
+  // data-URIs en window.SLIDE_IMAGES, se usan en lugar de los archivos.
+  if (window.SLIDE_IMAGES && window.SLIDE_IMAGES.length === SLIDES.length) {
+    SLIDES.forEach((s, i) => { s.img = window.SLIDE_IMAGES[i]; });
+  }
+
   const AUTOPLAY_MS = 6500;
   const CONFETTI_COLORS = ["#19a7e8", "#4fd2ff", "#ffffff", "#0b5ed7", "#ffd257"];
 
@@ -104,9 +110,11 @@
 
       frag.appendChild(slide);
 
-      // precarga
-      const pre = new Image();
-      pre.src = s.img;
+      // precarga (solo archivos; los data-URIs ya vienen embebidos)
+      if (s.img.slice(0, 5) !== "data:") {
+        const pre = new Image();
+        pre.src = s.img;
+      }
     });
 
     deck.appendChild(frag);
