@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Ambiente Futbolero · Informe de Premiación</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- Pantalla de bienvenida -->
+<div id="intro" class="intro">
+  <div class="intro-inner">
+    <div class="intro-badge">PHILIPS · Iluminación</div>
+    <h1 class="intro-title"><span>Ambiente</span><em>Futbolero</em></h1>
+    <p class="intro-sub">Informe de Premiación</p>
+    <button id="startBtn" class="start-btn">
+      <span class="start-ball"></span>
+      Iniciar presentación
+    </button>
+    <p class="intro-hint">Usa las flechas ← → · Barra espaciadora para avanzar</p>
+  </div>
+  <div class="intro-glow"></div>
+</div>
+
+<!-- Escenario de la presentación -->
+<div id="stage" class="stage" aria-hidden="true">
+  <div class="deck" id="deck"><!-- slides inyectados por JS --></div>
+
+  <!-- Capa de ambiente (haces de luz + balones) -->
+  <div class="ambient" aria-hidden="true">
+    <div class="beam beam-1"></div>
+    <div class="beam beam-2"></div>
+    <div class="beam beam-3"></div>
+    <div class="float-ball fb-1"></div>
+    <div class="float-ball fb-2"></div>
+  </div>
+
+  <!-- Confeti (relleno por JS en cada ganador) -->
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+  <!-- Controles -->
+  <button class="nav nav-prev" id="prevBtn" aria-label="Anterior">&#8249;</button>
+  <button class="nav nav-next" id="nextBtn" aria-label="Siguiente">&#8250;</button>
+
+  <div class="hud">
+    <div class="hud-left">
+      <button class="ctrl" id="playBtn" aria-label="Reproducir automático" title="Reproducción automática">
+        <span class="ico-play"></span>
+      </button>
+      <button class="ctrl" id="fsBtn" aria-label="Pantalla completa" title="Pantalla completa">
+        <span class="ico-fs"></span>
+      </button>
+    </div>
+    <div class="dots" id="dots"></div>
+    <div class="counter"><span id="cur">01</span><i>/</i><span id="total">12</span></div>
+  </div>
+
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
