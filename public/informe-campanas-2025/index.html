@@ -1,0 +1,457 @@
+<title>Consolidado Campañas 2025 · Equipo GC</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* ============================================================
+   Consolidado Campañas 2025 · Equipo GC
+   Informe animado — estilo motion graphics
+   El diseño reproduce 1:1 la pieza original.
+   ============================================================ */
+:root{
+  --bg:#3c3c3c;
+  --bg-deep:#2f2f2f;
+  --card:#262626;
+  --card-edge:#1d1d1d;
+  --orange:#f9691f;
+  --orange-hi:#ff7a2e;
+  --row-a:#f2f2f2;
+  --row-b:#e2e2e2;
+  --ink-dark:#161616;
+  --white:#ffffff;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:#262626;
+  overflow:hidden;
+  font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- Escenario a escala fija (1600x900) ---------- */
+.viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+.stage{
+  position:relative;width:1600px;height:900px;flex:none;
+  background:
+    radial-gradient(130% 100% at 50% 0%, #454545 0%, var(--bg) 45%, #333 100%);
+  overflow:hidden;
+  opacity:0;
+}
+.run .stage{animation:stageIn .6s ease both}
+@keyframes stageIn{from{opacity:0}to{opacity:1}}
+
+/* Decoración de fondo (círculos tenues, como la pieza original) */
+.deco{position:absolute;border-radius:50%;border:60px solid rgba(0,0,0,.10)}
+.deco-1{width:560px;height:560px;right:-160px;bottom:-220px}
+.deco-2{width:300px;height:300px;right:150px;bottom:-160px;border-width:40px;border-color:rgba(0,0,0,.07)}
+.run .deco{animation:decoDrift 14s ease-in-out infinite alternate}
+@keyframes decoDrift{from{transform:translate(0,0)}to{transform:translate(-14px,-10px)}}
+
+/* ---------- Rejilla principal ---------- */
+.grid{
+  position:absolute;left:85px;right:85px;top:62px;
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;
+}
+
+/* ---------- Tarjetas ---------- */
+.card{
+  background:linear-gradient(180deg,#2a2a2a 0%,var(--card) 100%);
+  border-radius:20px;
+  padding:26px 24px 20px;
+  box-shadow:0 18px 40px rgba(0,0,0,.35);
+  display:flex;flex-direction:column;
+  height:576px;
+  opacity:0;
+}
+.run .card{animation:cardRise .75s cubic-bezier(.2,.9,.25,1.05) both}
+.run .card:nth-child(1){animation-delay:.15s}
+.run .card:nth-child(2){animation-delay:.32s}
+.run .card:nth-child(3){animation-delay:.49s}
+@keyframes cardRise{
+  from{opacity:0;transform:translateY(56px) scale(.96)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+.card h2{
+  color:var(--orange-hi);
+  font-size:27px;line-height:1.15;font-weight:800;
+  letter-spacing:.01em;text-transform:uppercase;
+  margin:2px 4px 16px;
+}
+.card h2 .line{display:block;overflow:hidden}
+.card h2 .line span{display:inline-block;transform:translateY(110%)}
+.run .card h2 .line span{animation:lineUp .55s cubic-bezier(.2,.8,.2,1) both}
+.run .card:nth-child(1) h2 .line:nth-child(1) span{animation-delay:.55s}
+.run .card:nth-child(1) h2 .line:nth-child(2) span{animation-delay:.63s}
+.run .card:nth-child(2) h2 .line:nth-child(1) span{animation-delay:.72s}
+.run .card:nth-child(2) h2 .line:nth-child(2) span{animation-delay:.80s}
+.run .card:nth-child(3) h2 .line:nth-child(1) span{animation-delay:.89s}
+.run .card:nth-child(3) h2 .line:nth-child(2) span{animation-delay:.97s}
+@keyframes lineUp{from{transform:translateY(110%)}to{transform:translateY(0)}}
+
+/* ---------- Encabezado de tabla ---------- */
+.thead{
+  display:grid;align-items:end;
+  color:var(--white);font-weight:700;font-size:15px;
+  padding:0 4px 9px;position:relative;
+  opacity:0;
+}
+.run .thead{animation:fadeIn .5s ease both}
+.run .card:nth-child(1) .thead{animation-delay:.85s}
+.run .card:nth-child(2) .thead{animation-delay:1.0s}
+.run .card:nth-child(3) .thead{animation-delay:1.15s}
+.thead::after{
+  content:"";position:absolute;left:4px;right:4px;bottom:0;height:1px;
+  background:rgba(255,255,255,.45);
+  transform-origin:left;transform:scaleX(0);
+}
+.thead::before{
+  content:"";position:absolute;left:4px;bottom:-1px;height:3px;width:52px;
+  background:var(--orange);z-index:1;
+  transform-origin:left;transform:scaleX(0);
+}
+.run .thead::after{animation:drawX .6s cubic-bezier(.3,.7,.2,1) both}
+.run .thead::before{animation:drawX .45s .25s cubic-bezier(.3,.7,.2,1) both}
+.run .card:nth-child(1) .thead::after{animation-delay:.95s}
+.run .card:nth-child(1) .thead::before{animation-delay:1.15s}
+.run .card:nth-child(2) .thead::after{animation-delay:1.10s}
+.run .card:nth-child(2) .thead::before{animation-delay:1.30s}
+.run .card:nth-child(3) .thead::after{animation-delay:1.25s}
+.run .card:nth-child(3) .thead::before{animation-delay:1.45s}
+@keyframes drawX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+.cols-3{grid-template-columns:1fr 1.35fr .8fr}
+.cols-3 :nth-child(2){text-align:center}
+.cols-3 :nth-child(3){text-align:right}
+.cols-2{grid-template-columns:1fr auto}
+.cols-2 :nth-child(2){text-align:right}
+
+/* ---------- Cuerpo de tabla ---------- */
+.tbody{flex:1;display:flex;flex-direction:column;margin-top:8px;border-radius:0 0 12px 12px;overflow:hidden}
+.row{
+  flex:1;display:grid;align-items:center;
+  font-size:14.5px;font-weight:500;color:var(--ink-dark);
+  padding:0 14px;
+  opacity:0;
+}
+.row:nth-child(odd){background:var(--row-a)}
+.row:nth-child(even){background:var(--row-b)}
+.run .row{animation:rowIn .45s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rowIn{
+  from{opacity:0;transform:translateX(-26px)}
+  to{opacity:1;transform:translateX(0)}
+}
+.row b{font-weight:600}
+
+/* fila total (naranja) */
+.row.total{
+  background:var(--orange);color:var(--white);
+  font-weight:800;font-size:16.5px;
+  position:relative;overflow:hidden;
+  opacity:1;animation:none !important;
+}
+.row.total>span{position:relative;z-index:1;opacity:0}
+.run .row.total>span{animation:fadeUpSmall .4s ease both}
+.row.total::before{
+  content:"";position:absolute;inset:0;background:var(--orange);
+  transform-origin:left;transform:scaleX(0);
+}
+.row.total{background:transparent}
+.card .tbody .row.total{background:transparent}
+.run .row.total::before{animation:drawX .55s cubic-bezier(.3,.7,.2,1) both;animation-delay:var(--wd,0s)}
+@keyframes fadeUpSmall{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ---------- Barras de resumen ---------- */
+.summary{
+  position:absolute;left:85px;right:85px;top:672px;
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;
+}
+.pill{
+  background:linear-gradient(180deg,var(--orange-hi) 0%,var(--orange) 100%);
+  border-radius:18px;height:122px;
+  display:flex;align-items:center;gap:10px;
+  padding:0 34px;
+  box-shadow:0 16px 34px rgba(249,105,31,.28);
+  opacity:0;
+}
+.run .pill{animation:pillPop .65s cubic-bezier(.2,1.1,.3,1.15) both}
+.run .pill:nth-child(1){animation-delay:2.45s}
+.run .pill:nth-child(2){animation-delay:2.60s}
+.run .pill:nth-child(3){animation-delay:2.75s}
+@keyframes pillPop{
+  from{opacity:0;transform:translateY(34px) scale(.9)}
+  60%{opacity:1}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+.pill .icon{width:96px;flex:none;display:flex;align-items:center;justify-content:center}
+.pill .icon svg{width:82px;height:82px;overflow:visible}
+.pill .icon svg *{stroke:#111;stroke-width:9;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.run .pill .icon svg{animation:iconBeat 2.8s ease-in-out 3.4s infinite}
+@keyframes iconBeat{0%,100%{transform:scale(1)}6%{transform:scale(1.07)}12%{transform:scale(1)}}
+
+.pill .data{flex:1;text-align:center}
+.pill .label{
+  color:#111;font-weight:800;font-size:17px;letter-spacing:.06em;
+  text-transform:uppercase;margin-bottom:2px;
+}
+.pill .num{
+  color:var(--white);font-weight:800;font-size:58px;line-height:1;
+  letter-spacing:.01em;font-variant-numeric:tabular-nums;
+}
+
+/* ---------- Pie ---------- */
+.footer{
+  position:absolute;left:0;right:0;top:832px;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  opacity:0;
+}
+.run .footer{animation:fadeIn .8s 3.3s ease both}
+.footer .gmark{
+  width:26px;height:26px;border-radius:50%;
+  border:3px solid #fff;position:relative;flex:none;
+}
+.footer .gmark::after{
+  content:"";position:absolute;right:-1px;top:9px;width:11px;height:3px;background:#fff;
+}
+.footer span{color:#fff;font-weight:700;font-size:13px;letter-spacing:.35em}
+
+/* ---------- Botón repetir (discreto, fuera del arte) ---------- */
+.replay{
+  position:fixed;right:16px;bottom:14px;z-index:50;
+  width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.25);
+  background:rgba(0,0,0,.35);color:#fff;font-size:19px;cursor:pointer;
+  opacity:.25;transition:opacity .3s;
+}
+.replay:hover{opacity:1}
+
+@media (prefers-reduced-motion:reduce){
+  .run *{animation-duration:.01ms !important;animation-delay:0ms !important;animation-iteration-count:1 !important}
+}
+</style>
+
+<div class="viewport">
+<div class="stage">
+  <div class="deco deco-1"></div>
+  <div class="deco deco-2"></div>
+
+  <div class="grid">
+    <!-- Tarjeta 1 -->
+    <section class="card">
+      <h2><span class="line"><span>Consolidado</span></span><span class="line"><span>Campañas 2025</span></span></h2>
+      <div class="thead cols-3"><span>Mes</span><span>Cantidad Campañas</span><span>Paquetes</span></div>
+      <div class="tbody" data-row-start="1.05" data-row-step="0.055">
+        <div class="row cols-3"><span>Enero</span><span style="text-align:center">1</span><b style="text-align:right">54</b></div>
+        <div class="row cols-3"><span>Febrero</span><span style="text-align:center">5</span><b style="text-align:right">338</b></div>
+        <div class="row cols-3"><span>Marzo</span><span style="text-align:center">1</span><b style="text-align:right">10</b></div>
+        <div class="row cols-3"><span>Abril</span><span style="text-align:center">1</span><b style="text-align:right">99</b></div>
+        <div class="row cols-3"><span>Junio</span><span style="text-align:center">3</span><b style="text-align:right">122</b></div>
+        <div class="row cols-3"><span>Julio</span><span style="text-align:center">1</span><b style="text-align:right">101</b></div>
+        <div class="row cols-3"><span>Agosto</span><span style="text-align:center">3</span><b style="text-align:right">284</b></div>
+        <div class="row cols-3"><span>Septiembre</span><span style="text-align:center">2</span><b style="text-align:right">93</b></div>
+        <div class="row cols-3"><span>Octubre</span><span style="text-align:center">1</span><b style="text-align:right">249</b></div>
+        <div class="row cols-3"><span>Noviembre</span><span style="text-align:center">1</span><b style="text-align:right">155</b></div>
+        <div class="row cols-3"><span>Diciembre</span><span style="text-align:center">4</span><b style="text-align:right">269</b></div>
+        <div class="row total cols-3" data-wipe="2.0">
+          <span data-d="2.25">Total</span>
+          <span style="text-align:center" data-d="2.35" data-count="23" data-start="2.35">23</span>
+          <span style="text-align:right" data-d="2.45" data-count="1,774" data-start="2.35">1,774</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tarjeta 2 -->
+    <section class="card">
+      <h2><span class="line"><span>Consolidado Piezas</span></span><span class="line"><span>Campañas 2025</span></span></h2>
+      <div class="thead cols-2"><span>Name</span><span>Cantidad</span></div>
+      <div class="tbody" data-row-start="1.2" data-row-step="0.04">
+        <div class="row cols-2"><span>Afiches</span><b>1.413</b></div>
+        <div class="row cols-2"><span>Afiche Pescador</span><b>149</b></div>
+        <div class="row cols-2"><span>Afiche tiburón</span><b>7</b></div>
+        <div class="row cols-2"><span>Dummies</span><b>2.848</b></div>
+        <div class="row cols-2"><span>Saltarin</span><b>25.002</b></div>
+        <div class="row cols-2"><span>Saltarin Descuento Escalonado</span><b>70</b></div>
+        <div class="row cols-2"><span>Saltarin 3x2 Bolsillo</span><b>70</b></div>
+        <div class="row cols-2"><span>Saltarin 3x2 General</span><b>70</b></div>
+        <div class="row cols-2"><span>Stickers</span><b>149.865</b></div>
+        <div class="row cols-2"><span>Hablador De Mesa Dto Escalonado</span><b>65</b></div>
+        <div class="row cols-2"><span>Hablador Vertical</span><b>2.180</b></div>
+        <div class="row cols-2"><span>Habladores Mesa 3*2 Bolzillo</span><b>65</b></div>
+        <div class="row cols-2"><span>Habladores Mesa 3*2 General</span><b>65</b></div>
+        <div class="row cols-2"><span>Habladores Mesas (Pescador)</span><b>240</b></div>
+        <div class="row cols-2"><span>Moviles</span><b>92</b></div>
+        <div class="row cols-2"><span>Pendón 200 x 100</span><b>31</b></div>
+        <div class="row cols-2"><span>Pendón 80 x 160</span><b>123</b></div>
+        <div class="row cols-2"><span>Pendón 60 x 170</span><b>40</b></div>
+        <div class="row cols-2"><span>Pendón 90 x 170</span><b>34</b></div>
+      </div>
+    </section>
+
+    <!-- Tarjeta 3 -->
+    <section class="card">
+      <h2><span class="line"><span>Consolidado Piezas</span></span><span class="line"><span>Campañas 2025</span></span></h2>
+      <div class="thead cols-2"><span>Name</span><span>Cantidad</span></div>
+      <div class="tbody" data-row-start="1.35" data-row-step="0.04">
+        <div class="row cols-2"><span>Pendón 110 x 210</span><b>16</b></div>
+        <div class="row cols-2"><span>Pendón 2 x1</span><b>83</b></div>
+        <div class="row cols-2"><span>Pendón</span><b>25</b></div>
+        <div class="row cols-2"><span>Pendón 60 x 180</span><b>7</b></div>
+        <div class="row cols-2"><span>Pendón 60 x 220</span><b>1</b></div>
+        <div class="row cols-2"><span>Separadores</span><b>391.277</b></div>
+        <div class="row cols-2"><span>Paletas para feria</span><b>42</b></div>
+        <div class="row cols-2"><span>Paletas Para Mesa 3*2 bolsillo</span><b>45</b></div>
+        <div class="row cols-2"><span>Paletas Para Mesa 3*2 General</span><b>45</b></div>
+        <div class="row cols-2"><span>Cabezote</span><b>539</b></div>
+        <div class="row cols-2"><span>Cenefas</span><b>1.487</b></div>
+        <div class="row cols-2"><span>Faldones</span><b>134</b></div>
+        <div class="row cols-2"><span>Toma Uno</span><b>198</b></div>
+        <div class="row cols-2"><span>Opúsculo</span><b>4.540</b></div>
+        <div class="row cols-2"><span>Tiburones</span><b>48</b></div>
+        <div class="row cols-2"><span>Tropezones</span><b>12</b></div>
+        <div class="row cols-2"><span>Latereles</span><b>14</b></div>
+        <div class="row total cols-2" data-wipe="2.2">
+          <span data-d="2.45">Total General</span>
+          <span data-d="2.55" data-count="600.494" data-start="2.5">600.494</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Barras de totales -->
+  <div class="summary">
+    <div class="pill">
+      <div class="icon">
+        <!-- megáfono -->
+        <svg viewBox="0 0 100 100">
+          <path d="M14 42 L14 60 L26 60 L58 76 L58 26 L26 42 Z"/>
+          <path d="M30 62 L34 80 L44 80 L40 66"/>
+          <path d="M70 38 L82 30"/>
+          <path d="M72 51 L86 51"/>
+          <path d="M70 64 L82 72"/>
+        </svg>
+      </div>
+      <div class="data">
+        <div class="label">Total Campañas</div>
+        <div class="num" data-count="23" data-start="2.9">23</div>
+      </div>
+    </div>
+    <div class="pill">
+      <div class="icon">
+        <!-- pila de hojas -->
+        <svg viewBox="0 0 100 100">
+          <path d="M50 14 L88 32 L50 50 L12 32 Z"/>
+          <path d="M12 50 L50 68 L88 50"/>
+          <path d="M12 66 L50 84 L88 66"/>
+        </svg>
+      </div>
+      <div class="data">
+        <div class="label">Total Piezas</div>
+        <div class="num" data-count="600.494" data-start="3.05">600.494</div>
+      </div>
+    </div>
+    <div class="pill">
+      <div class="icon">
+        <!-- caja -->
+        <svg viewBox="0 0 100 100">
+          <path d="M16 34 L50 18 L84 34 L84 70 L50 86 L16 70 Z"/>
+          <path d="M16 34 L50 50 L84 34"/>
+          <path d="M50 50 L50 86"/>
+          <path d="M33 26 L67 42"/>
+        </svg>
+      </div>
+      <div class="data">
+        <div class="label">Total Paquetes</div>
+        <div class="num" data-count="1.774" data-start="3.2">1.774</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="gmark"></div>
+    <span>EQUIPO&nbsp;GC</span>
+  </div>
+</div>
+</div>
+
+<button class="replay" title="Repetir animación">↻</button>
+
+<script>
+(function(){
+  var stage = document.querySelector('.stage');
+  var timers = [];
+
+  /* Escalado del lienzo 1600x900 al viewport */
+  function fit(){
+    var s = Math.min(innerWidth/1600, innerHeight/900);
+    stage.style.transform = 'scale(' + s + ')';
+  }
+  addEventListener('resize', fit); fit();
+
+  /* Retardos de cascada por fila (data-row-start / data-row-step) */
+  document.querySelectorAll('.tbody').forEach(function(tb){
+    var start = parseFloat(tb.dataset.rowStart), step = parseFloat(tb.dataset.rowStep);
+    tb.querySelectorAll('.row:not(.total)').forEach(function(r,i){
+      r.style.animationDelay = (start + i*step).toFixed(3) + 's';
+    });
+  });
+
+  /* Retardos del barrido naranja y textos de filas total */
+  document.querySelectorAll('.row.total').forEach(function(r){
+    r.style.setProperty('--wd', r.dataset.wipe + 's');
+  });
+
+  function applyTotalDelays(){
+    document.querySelectorAll('.row.total').forEach(function(r){
+      var pseudoDelay = r.dataset.wipe + 's';
+      r.style.animationDelay = pseudoDelay;
+      r.querySelectorAll('[data-d]').forEach(function(s){
+        s.style.animationDelay = s.dataset.d + 's';
+      });
+    });
+  }
+
+  /* Contadores: respetan el formato exacto del original (1,774 / 600.494) */
+  function countUp(el){
+    var raw = el.dataset.count;
+    var sep = raw.indexOf(',') > -1 ? ',' : (raw.indexOf('.') > -1 ? '.' : '');
+    var target = parseInt(raw.replace(/[^\d]/g,''), 10);
+    var dur = Math.min(1600, 700 + String(target).length * 160);
+    var t0 = null;
+    function fmt(n){
+      var s = String(n);
+      if(!sep) return s;
+      return s.replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+    }
+    function tick(t){
+      if(t0 === null) t0 = t;
+      var p = Math.min((t - t0)/dur, 1);
+      var e = 1 - Math.pow(1 - p, 3); /* easeOutCubic */
+      el.textContent = fmt(Math.round(target * e));
+      if(p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function scheduleCounters(){
+    document.querySelectorAll('[data-count]').forEach(function(el){
+      el.textContent = '0';
+      timers.push(setTimeout(function(){ countUp(el); },
+        parseFloat(el.dataset.start) * 1000));
+    });
+  }
+
+  function play(){
+    timers.forEach(clearTimeout); timers = [];
+    document.body.classList.remove('run');
+    void document.body.offsetWidth; /* reinicia las animaciones CSS */
+    applyTotalDelays();
+    document.body.classList.add('run');
+    scheduleCounters();
+  }
+
+  document.querySelector('.replay').addEventListener('click', play);
+  play();
+})();
+</script>
